@@ -1,3 +1,5 @@
+---
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,10 +20,7 @@
       margin: 0 auto;
     }
 
-    /* Table of contents */
-    nav.toc {
-      margin-bottom: 6rem;
-    }
+    nav.toc { margin-bottom: 6rem; }
 
     nav.toc a {
       display: block;
@@ -30,15 +29,9 @@
       padding: 0.2rem 0;
     }
 
-    nav.toc a:hover {
-      color: #444444;
-      text-decoration: underline;
-    }
+    nav.toc a:hover { color: #444444; text-decoration: underline; }
 
-    /* Sections */
-    .text-section {
-      margin-bottom: 6rem;
-    }
+    .text-section { margin-bottom: 6rem; }
 
     .section-number {
       display: flex;
@@ -47,25 +40,12 @@
       color: #555555;
     }
 
-    .section-number a {
-      color: #555555;
-      text-decoration: none;
-    }
+    .section-number a { color: #555555; text-decoration: none; }
+    .section-number a:hover { color: #444444; text-decoration: underline; }
 
-    .section-number a:hover {
-      color: #444444;
-      text-decoration: underline;
-    }
+    .text-section p { margin-bottom: 1em; }
+    .text-section p:last-child { margin-bottom: 0; }
 
-    .text-section p {
-      margin-bottom: 1em;
-    }
-
-    .text-section p:last-child {
-      margin-bottom: 0;
-    }
-
-    /* Footer */
     footer {
       margin-top: 6rem;
       padding-top: 2rem;
@@ -79,57 +59,29 @@
       letter-spacing: 0.05em;
     }
 
-    footer a:hover {
-      color: #444444;
-      text-decoration: underline;
-    }
+    footer a:hover { color: #444444; text-decoration: underline; }
   </style>
 </head>
 <body id="top">
 
-  <!-- Table of contents -->
-  <!-- To add a new entry: copy one of the lines below and increment the number.
-       The href must match the id on the corresponding section further down.
-       Example: <a href="#section-06">06</a> -->
+  {% assign entries = site.texts | sort: "path" %}
+
+  <!-- Table of contents (built from the files in /_texts) -->
   <nav class="toc">
-    <a href="#section-01">01</a>
-    <a href="#section-02">02</a>
-    <a href="#section-03">03</a>
-    <a href="#section-04">04</a>
-    <a href="#section-05">05</a>
+    {% for entry in entries %}
+      {% assign num = forloop.index | prepend: "00" | slice: -2, 2 %}
+      <a href="#section-{{ num }}">{{ num }}</a>
+    {% endfor %}
   </nav>
 
-  <!-- Sections -->
-  <!-- To add a new section: copy the block below (from <section> to </section>),
-       paste it after the last section, and increment the id number.
-       Replace the lorem ipsum with your text. Add as many <p> tags as you need. -->
-  <section class="text-section" id="section-01">
-    <span class="section-number"><span>01</span><a href="#top">^</a></span>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
-    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+  <!-- Sections (one per file in /_texts) -->
+  {% for entry in entries %}
+    {% assign num = forloop.index | prepend: "00" | slice: -2, 2 %}
+  <section class="text-section" id="section-{{ num }}">
+    <span class="section-number"><span>{{ num }}</span><a href="#top">^</a></span>
+    {{ entry.content | markdownify }}
   </section>
-
-  <section class="text-section" id="section-02">
-    <span class="section-number"><span>02</span><a href="#top">^</a></span>
-    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.</p>
-  </section>
-
-  <section class="text-section" id="section-03">
-    <span class="section-number"><span>03</span><a href="#top">^</a></span>
-    <p>Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-    <p>Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</p>
-  </section>
-
-  <section class="text-section" id="section-04">
-    <span class="section-number"><span>04</span><a href="#top">^</a></span>
-    <p>Ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam.</p>
-  </section>
-
-  <section class="text-section" id="section-05">
-    <span class="section-number"><span>05</span><a href="#top">^</a></span>
-    <p>Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur.</p>
-    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.</p>
-  </section>
+  {% endfor %}
 
   <footer>
     <a href="index.html">EFFACE</a>
