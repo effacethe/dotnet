@@ -75,9 +75,9 @@
 <body>
 
   <div class="gallery">
-    <button class="arrow" id="prev" onclick="change(-1)">&#60;</button>
+    <button class="arrow" id="prev" onclick="change(-1)" aria-label="Previous image">&#60;</button>
     <img id="photo" src="" alt="" />
-    <button class="arrow" id="next" onclick="change(1)">&#62;</button>
+    <button class="arrow" id="next" onclick="change(1)" aria-label="Next image">&#62;</button>
   </div>
 
   <span class="counter" id="counter"></span>
@@ -129,6 +129,18 @@
       if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D') change(1);
       if (e.key === 'ArrowLeft'  || e.key === 'a' || e.key === 'A') change(-1);
     });
+    // Swipe left/right on touch screens
+    let touchX = null;
+    document.addEventListener('touchstart', function(e) {
+      touchX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    document.addEventListener('touchend', function(e) {
+      if (touchX === null) return;
+      const dx = e.changedTouches[0].clientX - touchX;
+      touchX = null;
+      if (Math.abs(dx) < 50) return;   // ignore small movements
+      change(dx < 0 ? 1 : -1);         // swipe left = next, right = previous
+    }, { passive: true });
   </script>
 
 </body>
