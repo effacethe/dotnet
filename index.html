@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Efface</title>
   <style>
+    html, body {
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
+
     body {
       margin: 0;
       background: #222222;
@@ -14,12 +19,14 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
+      height: 100vh;
+      height: 100dvh;
       gap: 2rem;
     }
 
     pre#ascii {
       font-size: 1rem;
+      font-size: min(1rem, 4vw, 4.5vh);
       line-height: 1.2;
       white-space: pre;
       user-select: none;
